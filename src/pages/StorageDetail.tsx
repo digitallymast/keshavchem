@@ -18,7 +18,7 @@ import {
   ShieldCheck,
   Star,
   Tag,
-  Tank,
+  Fuel,
   Truck,
   Waves
 } from "lucide-react";
@@ -33,8 +33,8 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { useForm } from "react-hook-form";
 
-// Mock data for a single storage facility
 const mockStorageDetail = {
   id: 1,
   name: "Chemical Tank Farm",
@@ -119,13 +119,15 @@ const StorageDetail = () => {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [isContactDialogOpen, setIsContactDialogOpen] = useState(false);
   
-  // In a real app, we would fetch the storage data based on the ID
-  // const { data: storage, isLoading, error } = useQuery({
-  //   queryKey: ['storage', id],
-  //   queryFn: () => fetchStorageById(id)
-  // });
+  const form = useForm({
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+      message: ""
+    }
+  });
   
-  // For demo purposes, we'll use mock data
   const storage = mockStorageDetail;
 
   const handleContactProvider = () => {
@@ -138,7 +140,6 @@ const StorageDetail = () => {
   };
   
   const handleShareFacility = () => {
-    // In a real app, this would generate a shareable link
     navigator.clipboard.writeText(window.location.href);
     toast.success("Link copied to clipboard!");
   };
@@ -150,7 +151,6 @@ const StorageDetail = () => {
   return (
     <MainLayout>
       <div className="container mx-auto px-4 py-8">
-        {/* Back Navigation */}
         <div className="mb-6">
           <Button variant="outline" asChild className="flex items-center gap-2">
             <Link to="/storage">
@@ -160,11 +160,8 @@ const StorageDetail = () => {
           </Button>
         </div>
         
-        {/* Main Content */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Column - Images and Basic Info */}
           <div className="lg:col-span-2">
-            {/* Image Gallery */}
             <div className="mb-6 rounded-lg overflow-hidden border">
               <div className="h-[400px] overflow-hidden">
                 <img 
@@ -190,7 +187,6 @@ const StorageDetail = () => {
               </div>
             </div>
 
-            {/* Basic Information */}
             <div className="mb-6">
               <div className="flex justify-between items-start mb-4">
                 <div>
@@ -248,7 +244,6 @@ const StorageDetail = () => {
               </div>
             </div>
 
-            {/* Tabs for Detailed Information */}
             <Tabs defaultValue="specifications" className="mt-8">
               <TabsList className="grid grid-cols-4 mb-4">
                 <TabsTrigger value="specifications">Specifications</TabsTrigger>
@@ -257,7 +252,6 @@ const StorageDetail = () => {
                 <TabsTrigger value="reviews">Reviews</TabsTrigger>
               </TabsList>
               
-              {/* Specifications Tab */}
               <TabsContent value="specifications">
                 <Card>
                   <CardHeader>
@@ -281,7 +275,6 @@ const StorageDetail = () => {
                 </Card>
               </TabsContent>
               
-              {/* Compliance Tab */}
               <TabsContent value="compliance">
                 <Card>
                   <CardHeader>
@@ -318,7 +311,6 @@ const StorageDetail = () => {
                 </Card>
               </TabsContent>
               
-              {/* Location Tab */}
               <TabsContent value="location">
                 <Card>
                   <CardHeader>
@@ -345,7 +337,6 @@ const StorageDetail = () => {
                 </Card>
               </TabsContent>
               
-              {/* Reviews Tab */}
               <TabsContent value="reviews">
                 <Card>
                   <CardHeader>
@@ -390,9 +381,7 @@ const StorageDetail = () => {
             </Tabs>
           </div>
           
-          {/* Right Column - Provider Info and Actions */}
           <div className="lg:col-span-1">
-            {/* Provider Information Card */}
             <Card className="mb-6">
               <CardHeader>
                 <CardTitle className="flex items-center justify-between">
@@ -438,7 +427,6 @@ const StorageDetail = () => {
               </CardContent>
             </Card>
             
-            {/* Call To Action Card */}
             <Card>
               <CardHeader>
                 <CardTitle>Interested in this facility?</CardTitle>
@@ -465,35 +453,60 @@ const StorageDetail = () => {
                         Send an inquiry to {storage.provider.name} regarding this facility.
                       </DialogDescription>
                     </DialogHeader>
-                    <Form>
+                    <Form {...form}>
                       <div className="grid gap-4 py-4">
-                        <FormItem>
-                          <FormLabel>Full Name</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Your name" />
-                          </FormControl>
-                        </FormItem>
-                        <FormItem>
-                          <FormLabel>Email</FormLabel>
-                          <FormControl>
-                            <Input placeholder="your.email@company.com" type="email" />
-                          </FormControl>
-                        </FormItem>
-                        <FormItem>
-                          <FormLabel>Phone Number</FormLabel>
-                          <FormControl>
-                            <Input placeholder="+1 (555) 000-0000" />
-                          </FormControl>
-                        </FormItem>
-                        <FormItem>
-                          <FormLabel>Message</FormLabel>
-                          <FormControl>
-                            <Textarea 
-                              placeholder="Please provide details about your storage requirements..."
-                              rows={4}
-                            />
-                          </FormControl>
-                        </FormItem>
+                        <FormField
+                          control={form.control}
+                          name="name"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Full Name</FormLabel>
+                              <FormControl>
+                                <Input placeholder="Your name" {...field} />
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="email"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Email</FormLabel>
+                              <FormControl>
+                                <Input placeholder="your.email@company.com" type="email" {...field} />
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="phone"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Phone Number</FormLabel>
+                              <FormControl>
+                                <Input placeholder="+1 (555) 000-0000" {...field} />
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="message"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Message</FormLabel>
+                              <FormControl>
+                                <Textarea 
+                                  placeholder="Please provide details about your storage requirements..."
+                                  rows={4}
+                                  {...field}
+                                />
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
                       </div>
                     </Form>
                     <DialogFooter>
