@@ -44,3 +44,28 @@ export function useBreakpoint() {
   if (isLargeDesktop) return "largeDesktop";
   return "desktop";
 }
+
+export function useIsScreenSize(size: "xs" | "sm" | "md" | "lg" | "xl" | "2xl") {
+  const queries = {
+    xs: "(max-width: 640px)",
+    sm: "(min-width: 641px) and (max-width: 768px)",
+    md: "(min-width: 769px) and (max-width: 1024px)",
+    lg: "(min-width: 1025px) and (max-width: 1280px)",
+    xl: "(min-width: 1281px) and (max-width: 1536px)",
+    "2xl": "(min-width: 1537px)",
+  };
+  
+  return useMediaQuery(queries[size]);
+}
+
+export function useIsMobileOrTablet() {
+  return useMediaQuery("(max-width: 1024px)");
+}
+
+export function useIsLandscape() {
+  return useMediaQuery("(orientation: landscape)");
+}
+
+export function useIsPortrait() {
+  return useMediaQuery("(orientation: portrait)");
+}
