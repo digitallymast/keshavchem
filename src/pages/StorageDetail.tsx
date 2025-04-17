@@ -1,3 +1,4 @@
+
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -20,7 +21,10 @@ import {
   Tag,
   Fuel,
   Truck,
-  Waves
+  Waves,
+  BookmarkIcon,
+  PlusCircle,
+  ClipboardIcon
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -34,6 +38,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 const mockStorageDetail = {
   id: 1,
@@ -118,6 +124,9 @@ const StorageDetail = () => {
   const { id } = useParams();
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [isContactDialogOpen, setIsContactDialogOpen] = useState(false);
+  const [isBookmarked, setIsBookmarked] = useState(false);
+  const [showFullDescription, setShowFullDescription] = useState(false);
+  const isMobile = useIsMobile();
   
   const form = useForm({
     defaultValues: {
@@ -129,10 +138,23 @@ const StorageDetail = () => {
   });
   
   const storage = mockStorageDetail;
+  const shortDescription = storage.description.substring(0, 150) + (storage.description.length > 150 ? '...' : '');
 
   const handleContactProvider = () => {
+    // Get form values
+    const values = form.getValues();
+    
+    // Validate form
+    if (!values.name || !values.email || !values.message) {
+      toast.error("Please fill in all required fields.");
+      return;
+    }
+    
     setIsContactDialogOpen(false);
     toast.success("Inquiry sent! The provider will contact you shortly.");
+    
+    // Reset form
+    form.reset();
   };
 
   const handleRequestQuote = () => {
@@ -146,6 +168,15 @@ const StorageDetail = () => {
 
   const handleDownloadSpec = () => {
     toast.success("Specifications document is being downloaded.");
+  };
+  
+  const toggleBookmark = () => {
+    setIsBookmarked(!isBookmarked);
+    toast.success(isBookmarked ? "Facility removed from saved list" : "Facility saved to your list");
+  };
+  
+  const handleScheduleTour = () => {
+    toast.success("Tour request sent! A representative will contact you to schedule.");
   };
 
   return (
@@ -162,19 +193,34 @@ const StorageDetail = () => {
         
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
-            <div className="mb-6 rounded-lg overflow-hidden border">
-              <div className="h-[400px] overflow-hidden">
+            <div className="mb-6 rounded-lg overflow-hidden border relative">
+              <div className="h-[300px] md:h-[400px] overflow-hidden">
                 <img 
                   src={storage.images[activeImageIndex]} 
                   alt={`${storage.name} view ${activeImageIndex + 1}`} 
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="flex p-2 gap-2 bg-gray-50">
+              
+              {/* Image indicator */}
+              <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
+                {storage.images.map((_, index) => (
+                  <button 
+                    key={index}
+                    onClick={() => setActiveImageIndex(index)}
+                    className={`w-2.5 h-2.5 rounded-full transition-colors ${
+                      activeImageIndex === index ? 'bg-white' : 'bg-white/50'
+                    }`}
+                    aria-label={`View image ${index + 1}`}
+                  />
+                ))}
+              </div>
+              
+              <div className="flex p-2 gap-2 bg-gray-50 overflow-x-auto scrollbar-none">
                 {storage.images.map((image, index) => (
                   <div 
                     key={index} 
-                    className={`h-16 w-16 cursor-pointer transition ${activeImageIndex === index ? 'ring-2 ring-keshav-600' : 'opacity-70'}`}
+                    className={`h-16 w-16 cursor-pointer transition flex-shrink-0 ${activeImageIndex === index ? 'ring-2 ring-keshav-600' : 'opacity-70'}`}
                     onClick={() => setActiveImageIndex(index)}
                   >
                     <img 
@@ -188,7 +234,7 @@ const StorageDetail = () => {
             </div>
 
             <div className="mb-6">
-              <div className="flex justify-between items-start mb-4">
+              <div className="flex justify-between items-start mb-4 flex-wrap gap-2">
                 <div>
                   <h1 className="text-2xl md:text-3xl font-bold text-keshav-900">{storage.name}</h1>
                   <div className="flex items-center text-sm text-gray-600 mt-2">
@@ -196,9 +242,29 @@ const StorageDetail = () => {
                     <span>{storage.address}</span>
                   </div>
                 </div>
-                <Badge variant="outline" className="text-base px-3 py-1">
-                  {storage.type}
-                </Badge>
+                <div className="flex gap-2">
+                  <Badge variant="outline" className="text-base px-3 py-1">
+                    {storage.type}
+                  </Badge>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button 
+                          variant="ghost" 
+                          size="icon" 
+                          className={`h-9 w-9 rounded-full ${isBookmarked ? 'text-keshav-600' : ''}`}
+                          onClick={toggleBookmark}
+                        >
+                          <BookmarkIcon className={`h-5 w-5 ${isBookmarked ? 'fill-keshav-600' : ''}`} />
+                          <span className="sr-only">{isBookmarked ? 'Remove bookmark' : 'Bookmark'}</span>
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>{isBookmarked ? 'Remove from saved' : 'Save to your list'}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
               </div>
               
               <div className="flex flex-wrap gap-3 mb-4">
@@ -228,9 +294,18 @@ const StorageDetail = () => {
                 </div>
               </div>
               
-              <p className="text-gray-700 mb-6">
-                {storage.description}
-              </p>
+              <div className="text-gray-700 mb-6">
+                {showFullDescription ? storage.description : shortDescription}
+                {storage.description.length > 150 && (
+                  <Button 
+                    variant="link" 
+                    onClick={() => setShowFullDescription(!showFullDescription)}
+                    className="px-0 text-keshav-600"
+                  >
+                    {showFullDescription ? 'Read less' : 'Read more'}
+                  </Button>
+                )}
+              </div>
               
               <div className="flex flex-wrap gap-3">
                 <Button onClick={handleDownloadSpec} className="flex items-center gap-2">
@@ -241,11 +316,19 @@ const StorageDetail = () => {
                   <Share2 size={16} />
                   Share Facility
                 </Button>
+                <Button 
+                  variant="outline" 
+                  onClick={handleScheduleTour} 
+                  className="flex items-center gap-2"
+                >
+                  <PlusCircle size={16} />
+                  Schedule Tour
+                </Button>
               </div>
             </div>
 
             <Tabs defaultValue="specifications" className="mt-8">
-              <TabsList className="grid grid-cols-4 mb-4">
+              <TabsList className={`grid ${isMobile ? 'grid-cols-2 gap-2' : 'grid-cols-4'} mb-4`}>
                 <TabsTrigger value="specifications">Specifications</TabsTrigger>
                 <TabsTrigger value="compliance">Compliance</TabsTrigger>
                 <TabsTrigger value="location">Location</TabsTrigger>
@@ -261,16 +344,18 @@ const StorageDetail = () => {
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <Table>
-                      <TableBody>
-                        {storage.specifications.map((spec) => (
-                          <TableRow key={spec.name}>
-                            <TableCell className="font-medium">{spec.name}</TableCell>
-                            <TableCell>{spec.value}</TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
+                    <div className="overflow-x-auto">
+                      <Table>
+                        <TableBody>
+                          {storage.specifications.map((spec) => (
+                            <TableRow key={spec.name}>
+                              <TableCell className="font-medium">{spec.name}</TableCell>
+                              <TableCell>{spec.value}</TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </div>
                   </CardContent>
                 </Card>
               </TabsContent>
@@ -284,29 +369,40 @@ const StorageDetail = () => {
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead>Document</TableHead>
-                          <TableHead>Status</TableHead>
-                          <TableHead className="text-right">Action</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {storage.complianceDocuments.map((doc) => (
-                          <TableRow key={doc.name}>
-                            <TableCell className="font-medium">{doc.name}</TableCell>
-                            <TableCell>{doc.date}</TableCell>
-                            <TableCell className="text-right">
-                              <Button variant="ghost" size="sm" className="h-8 flex items-center gap-1">
-                                <FileText size={14} />
-                                View
-                              </Button>
-                            </TableCell>
+                    <div className="overflow-x-auto">
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead>Document</TableHead>
+                            <TableHead>Status</TableHead>
+                            <TableHead className="text-right">Action</TableHead>
                           </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
+                        </TableHeader>
+                        <TableBody>
+                          {storage.complianceDocuments.map((doc) => (
+                            <TableRow key={doc.name}>
+                              <TableCell className="font-medium">{doc.name}</TableCell>
+                              <TableCell>{doc.date}</TableCell>
+                              <TableCell className="text-right">
+                                <TooltipProvider>
+                                  <Tooltip>
+                                    <TooltipTrigger asChild>
+                                      <Button variant="ghost" size="sm" className="h-8 flex items-center gap-1">
+                                        <FileText size={14} />
+                                        View
+                                      </Button>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                      <p>View document</p>
+                                    </TooltipContent>
+                                  </Tooltip>
+                                </TooltipProvider>
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </div>
                   </CardContent>
                 </Card>
               </TabsContent>
@@ -382,7 +478,7 @@ const StorageDetail = () => {
           </div>
           
           <div className="lg:col-span-1">
-            <Card className="mb-6">
+            <Card className="mb-6 sticky top-4">
               <CardHeader>
                 <CardTitle className="flex items-center justify-between">
                   <span>Provider Information</span>
@@ -427,7 +523,7 @@ const StorageDetail = () => {
               </CardContent>
             </Card>
             
-            <Card>
+            <Card className="mb-6">
               <CardHeader>
                 <CardTitle>Interested in this facility?</CardTitle>
                 <CardDescription>
@@ -460,7 +556,7 @@ const StorageDetail = () => {
                           name="name"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Full Name</FormLabel>
+                              <FormLabel>Full Name <span className="text-red-500">*</span></FormLabel>
                               <FormControl>
                                 <Input placeholder="Your name" {...field} />
                               </FormControl>
@@ -472,7 +568,7 @@ const StorageDetail = () => {
                           name="email"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Email</FormLabel>
+                              <FormLabel>Email <span className="text-red-500">*</span></FormLabel>
                               <FormControl>
                                 <Input placeholder="your.email@company.com" type="email" {...field} />
                               </FormControl>
@@ -496,7 +592,7 @@ const StorageDetail = () => {
                           name="message"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Message</FormLabel>
+                              <FormLabel>Message <span className="text-red-500">*</span></FormLabel>
                               <FormControl>
                                 <Textarea 
                                   placeholder="Please provide details about your storage requirements..."
@@ -525,10 +621,27 @@ const StorageDetail = () => {
                     <Phone size={16} />
                     Request Call Back
                   </Button>
-                  <Button variant="ghost" className="w-full flex items-center justify-center gap-2">
-                    <Info size={16} />
-                    Report Listing
-                  </Button>
+                  
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button 
+                          variant="ghost" 
+                          className="w-full flex items-center justify-center gap-2"
+                          onClick={() => {
+                            navigator.clipboard.writeText(storage.address);
+                            toast.success("Address copied to clipboard");
+                          }}
+                        >
+                          <ClipboardIcon size={16} />
+                          Copy Address
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Copy address to clipboard</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                 </div>
               </CardContent>
             </Card>

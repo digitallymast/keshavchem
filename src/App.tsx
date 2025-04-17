@@ -13,13 +13,22 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 
-const queryClient = new QueryClient();
+// Create a client for react-query
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: false,
+      staleTime: 5 * 60 * 1000, // 5 minutes
+    },
+  },
+});
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <BrowserRouter>
       <Toaster />
-      <Sonner />
+      <Sonner position="top-right" closeButton />
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/chemicals" element={<Chemicals />} />

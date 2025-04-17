@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import MainLayout from "@/components/layout/MainLayout";
 import { 
@@ -8,7 +8,8 @@ import {
   FilterIcon, 
   SearchIcon, 
   SlidersHorizontalIcon,
-  XIcon
+  XIcon,
+  InfoIcon
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -34,10 +35,22 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
+  SheetFooter,
 } from "@/components/ui/sheet";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import { toast } from "sonner";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { useIsMobile } from "@/hooks/use-mobile";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 // Mock data for chemicals
 const mockChemicals = [
@@ -147,6 +160,11 @@ const Chemicals = () => {
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [verifiedOnly, setVerifiedOnly] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [quickViewId, setQuickViewId] = useState<number | null>(null);
+  const isMobile = useIsMobile();
+  
+  const itemsPerPage = 8;
   
   // Filter chemicals based on search and filters
   const filteredChemicals = mockChemicals.filter(chemical => {
@@ -183,6 +201,18 @@ const Chemicals = () => {
     }
   });
   
+  // Paginate the results
+  const totalPages = Math.ceil(sortedChemicals.length / itemsPerPage);
+  const paginatedChemicals = sortedChemicals.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+  
+  // Reset to first page when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, selectedCategories, verifiedOnly, sortOption]);
+  
   const handleCategoryToggle = (category: string) => {
     if (selectedCategories.includes(category)) {
       setSelectedCategories(selectedCategories.filter(c => c !== category));
@@ -194,6 +224,14 @@ const Chemicals = () => {
   const clearFilters = () => {
     setSelectedCategories([]);
     setVerifiedOnly(false);
+  };
+  
+  const handleQuickView = (id: number) => {
+    setQuickViewId(id === quickViewId ? null : id);
+  };
+  
+  const handleCompare = (id: number) => {
+    toast.success("Chemical added to comparison list");
   };
 
   return (
@@ -237,6 +275,11 @@ const Chemicals = () => {
                 <Button variant="outline" className="flex gap-2">
                   <FilterIcon size={16} />
                   <span className="hidden md:inline">Filters</span>
+                  {(selectedCategories.length > 0 || verifiedOnly) && (
+                    <Badge variant="secondary" className="ml-1 h-5 w-5 p-0 flex items-center justify-center rounded-full">
+                      {selectedCategories.length + (verifiedOnly ? 1 : 0)}
+                    </Badge>
+                  )}
                 </Button>
               </SheetTrigger>
               <SheetContent className="w-full sm:max-w-md">
@@ -292,21 +335,23 @@ const Chemicals = () => {
                   </div>
                 </div>
                 
-                <div className="flex gap-2 mt-4">
-                  <Button 
-                    variant="outline" 
-                    onClick={clearFilters} 
-                    className="flex-1"
-                  >
-                    Clear All
-                  </Button>
-                  <Button 
-                    className="flex-1 bg-keshav-600 hover:bg-keshav-700"
-                    onClick={() => setFiltersOpen(false)}
-                  >
-                    Apply Filters
-                  </Button>
-                </div>
+                <SheetFooter>
+                  <div className="flex gap-2 w-full mt-4">
+                    <Button 
+                      variant="outline" 
+                      onClick={clearFilters} 
+                      className="flex-1"
+                    >
+                      Clear All
+                    </Button>
+                    <Button 
+                      className="flex-1 bg-keshav-600 hover:bg-keshav-700"
+                      onClick={() => setFiltersOpen(false)}
+                    >
+                      Apply Filters
+                    </Button>
+                  </div>
+                </SheetFooter>
               </SheetContent>
             </Sheet>
           </div>
@@ -352,20 +397,42 @@ const Chemicals = () => {
         
         {/* Results Count */}
         <div className="mb-6 text-sm text-gray-600">
-          Showing {sortedChemicals.length} chemicals
+          Showing {paginatedChemicals.length} of {filteredChemicals.length} chemicals
         </div>
         
         {/* Chemical Listings */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {sortedChemicals.length > 0 ? (
-            sortedChemicals.map((chemical) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {paginatedChemicals.length > 0 ? (
+            paginatedChemicals.map((chemical) => (
               <Card key={chemical.id} className="overflow-hidden card-hover">
-                <div className="h-48 overflow-hidden">
+                <div className="h-48 overflow-hidden relative group">
                   <img 
                     src={chemical.image} 
                     alt={chemical.name} 
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                   />
+                  <div className="absolute top-2 right-2 flex gap-1">
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button
+                            size="sm"
+                            variant="secondary"
+                            className="h-8 w-8 p-0 bg-white/80 hover:bg-white"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleQuickView(chemical.id);
+                            }}
+                          >
+                            <InfoIcon size={16} />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Quick View</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </div>
                 </div>
                 <CardHeader className="pb-2">
                   <div className="flex justify-between items-start">
@@ -390,9 +457,17 @@ const Chemicals = () => {
                     )}
                   </div>
                 </CardContent>
-                <CardFooter className="pt-0">
+                <CardFooter className="pt-0 flex flex-col gap-2">
                   <Button variant="outline" asChild className="w-full">
                     <Link to={`/chemicals/${chemical.id}`}>View Details</Link>
+                  </Button>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="w-full text-keshav-700"
+                    onClick={() => handleCompare(chemical.id)}
+                  >
+                    Add to Compare
                   </Button>
                 </CardFooter>
               </Card>
@@ -414,6 +489,71 @@ const Chemicals = () => {
             </div>
           )}
         </div>
+        
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <Pagination className="mt-8">
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious 
+                  href="#" 
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (currentPage > 1) setCurrentPage(currentPage - 1);
+                  }}
+                  className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
+                />
+              </PaginationItem>
+              
+              {Array.from({ length: totalPages }, (_, i) => i + 1)
+                .filter(page => {
+                  // Show first page, last page, and pages around current page
+                  const showPageThreshold = isMobile ? 1 : 2;
+                  return page === 1 || 
+                         page === totalPages || 
+                         Math.abs(page - currentPage) <= showPageThreshold;
+                })
+                .map((page, i, array) => {
+                  // Add ellipsis between non-consecutive pages
+                  if (i > 0 && page - array[i - 1] > 1) {
+                    return (
+                      <PaginationItem key={`ellipsis-${page}`}>
+                        <span className="flex h-10 w-10 items-center justify-center">
+                          ...
+                        </span>
+                      </PaginationItem>
+                    );
+                  }
+                  
+                  return (
+                    <PaginationItem key={page}>
+                      <PaginationLink
+                        href="#"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setCurrentPage(page);
+                        }}
+                        isActive={page === currentPage}
+                      >
+                        {page}
+                      </PaginationLink>
+                    </PaginationItem>
+                  );
+                })}
+              
+              <PaginationItem>
+                <PaginationNext 
+                  href="#" 
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+                  }}
+                  className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        )}
       </div>
     </MainLayout>
   );
