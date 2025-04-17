@@ -13,7 +13,8 @@ import {
   SlidersHorizontal,
   Waves,
   Warehouse,
-  XIcon 
+  XIcon,
+  Check
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -610,7 +611,7 @@ const StoragePage = () => {
                             <span className="text-gray-500">Provider:</span> {storage.provider}
                             {storage.verified && (
                               <span className="ml-2 inline-flex items-center text-keshav-600">
-                                <CheckIcon size={12} className="mr-0.5" />
+                                <Check size={12} className="mr-0.5" />
                                 Verified
                               </span>
                             )}
