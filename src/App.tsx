@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Chemicals from "./pages/Chemicals";
+import ChemicalDetail from "./pages/ChemicalDetail";
 import Storage from "./pages/Storage";
 import StorageDetail from "./pages/StorageDetail";
 import Login from "./pages/Login";
@@ -22,6 +23,7 @@ const App = () => (
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/chemicals" element={<Chemicals />} />
+        <Route path="/chemicals/:id" element={<ChemicalDetail />} />
         <Route path="/storage" element={<Storage />} />
         <Route path="/storage/:id" element={<StorageDetail />} />
         <Route path="/login" element={<Login />} />
