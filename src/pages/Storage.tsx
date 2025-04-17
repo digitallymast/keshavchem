@@ -1,5 +1,4 @@
-
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import MainLayout from "@/components/layout/MainLayout";
 import { 
@@ -12,7 +11,7 @@ import {
   MapPin,
   SearchIcon, 
   SlidersHorizontal,
-  Tank,
+  Waves,
   Warehouse,
   XIcon 
 } from "lucide-react";
@@ -39,7 +38,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Toggle } from "@/components/ui/toggle";
 
-// Extended mock data for storage facilities
 const mockStorage: StorageFacility[] = [
   {
     id: 1,
@@ -190,7 +188,6 @@ const StoragePage = () => {
   const [activeTab, setActiveTab] = useState("all");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   
-  // Advanced filters state
   const [filters, setFilters] = useState({
     types: [],
     features: [],
@@ -211,34 +208,26 @@ const StoragePage = () => {
     verifiedOnly: boolean;
   });
   
-  // Filter storage based on search, filters and tabs
   const filteredStorage = mockStorage.filter(storage => {
-    // Search query filter
     const matchesSearch = 
       storage.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       storage.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
       storage.provider.toLowerCase().includes(searchQuery.toLowerCase());
     
-    // Type filter from sidebar
     const matchesType = filters.types.length === 0 || filters.types.includes(storage.type);
     
-    // Features filter
     const matchesFeatures = filters.features.length === 0 || 
       filters.features.some(feature => storage.features.includes(feature));
     
-    // Location filter
     const matchesLocation = filters.locations.length === 0 || 
       filters.locations.includes(storage.location);
     
-    // Chemical compatibility filter
     const matchesCompatibility = filters.chemicalCompatibility.length === 0 || 
       (storage.compatibility && filters.chemicalCompatibility.some(compat => 
         storage.compatibility?.includes(compat)));
     
-    // Verified filter
     const matchesVerified = !filters.verifiedOnly || storage.verified;
     
-    // Tab filter
     const matchesTab = activeTab === "all" || 
       (activeTab === "tanks" && storage.type === "Tank") ||
       (activeTab === "warehouses" && storage.type === "Warehouse") ||
@@ -250,7 +239,6 @@ const StoragePage = () => {
            matchesVerified && matchesTab;
   });
   
-  // Sort storage based on selected option
   const sortedStorage = [...filteredStorage].sort((a, b) => {
     switch (sortOption) {
       case "name-asc":
@@ -258,7 +246,6 @@ const StoragePage = () => {
       case "name-desc":
         return b.name.localeCompare(a.name);
       case "price-asc":
-        // Extract first number from price
         return parseFloat(a.price.match(/\d+(\.\d+)?/)?.[0] || "0") -
                parseFloat(b.price.match(/\d+(\.\d+)?/)?.[0] || "0");
       case "price-desc":
@@ -294,7 +281,6 @@ const StoragePage = () => {
     setFilters(newFilters);
   };
 
-  // Handle RFQ for multiple facilities
   const handleBulkRFQ = () => {
     toast.success("RFQ form opened for multiple storage facilities");
   };
@@ -302,7 +288,6 @@ const StoragePage = () => {
   return (
     <MainLayout>
       <div className="container mx-auto px-4 py-8">
-        {/* Header */}
         <div className="mb-8">
           <h1 className="text-2xl md:text-3xl font-bold text-keshav-900 mb-2">Storage Solutions</h1>
           <p className="text-gray-600">
@@ -363,7 +348,6 @@ const StoragePage = () => {
           </div>
         </div>
         
-        {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-6">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-2">
             <TabsList className="w-full md:w-auto overflow-auto">
@@ -372,7 +356,7 @@ const StoragePage = () => {
                 All Storage
               </TabsTrigger>
               <TabsTrigger value="tanks" className="flex items-center gap-1">
-                <Tank size={16} />
+                <Waves size={16} />
                 Tanks
               </TabsTrigger>
               <TabsTrigger value="warehouses" className="flex items-center gap-1">
@@ -426,7 +410,6 @@ const StoragePage = () => {
           </div>
         </Tabs>
         
-        {/* Search and Filters */}
         <div className="flex flex-col lg:flex-row gap-4 mb-8">
           <div className="relative flex-1">
             <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
@@ -438,7 +421,6 @@ const StoragePage = () => {
             />
           </div>
           
-          {/* Mobile filter button (shown on small screens) */}
           {isMobile && (
             <StorageFilterSidebar 
               filters={filters}
@@ -449,7 +431,6 @@ const StoragePage = () => {
           )}
         </div>
         
-        {/* Active Filters */}
         {(filters.types.length > 0 || 
           filters.features.length > 0 || 
           filters.locations.length > 0 || 
@@ -549,23 +530,18 @@ const StoragePage = () => {
           </div>
         )}
         
-        {/* Main content with filters and results */}
         <div className="flex flex-col lg:flex-row gap-6">
-          {/* Desktop Filters Sidebar */}
           <StorageFilterSidebar 
             filters={filters}
             onChange={handleFilterChange}
             onClear={clearFilters}
           />
           
-          {/* Results Column */}
           <div className="flex-1">
-            {/* Results Count */}
             <div className="mb-6 text-sm text-gray-600">
               Showing {sortedStorage.length} storage facilities
             </div>
             
-            {/* Mobile only button for bulk RFQ */}
             <div className="mb-4 md:hidden">
               <Button 
                 variant="outline"
@@ -576,7 +552,6 @@ const StoragePage = () => {
               </Button>
             </div>
             
-            {/* Storage Listings */}
             {viewMode === "grid" ? (
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                 {sortedStorage.length > 0 ? (
