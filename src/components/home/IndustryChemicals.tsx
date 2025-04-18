@@ -1,7 +1,7 @@
 
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
-import { ExternalLink, Factory, Beaker, FlaskConical, TestTube } from "lucide-react";
+import { ExternalLink, Factory, Beaker, FlaskConical, TestTube, Paintbrush, Leaf, Flask, Oil, PenTool, Pill } from "lucide-react";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 
 // Industry sectors with their common chemicals
@@ -9,34 +9,66 @@ const industries = [
   {
     id: 1,
     name: "Pharmaceutical",
-    icon: <TestTube className="h-8 w-8 text-indigo-500" />,
+    icon: <Pill className="h-8 w-8 text-indigo-500" />,
     description: "Chemicals for drug development and manufacturing.",
-    chemicals: ["Acetonitrile", "Dichloromethane", "Dimethyl Sulfoxide", "Methanol"],
+    chemicals: ["Vitamins", "Antibiotics", "Anti-Allergic Agents", "Blood System Agents"],
     image: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?ixlib=rb-1.2.1&auto=format&fit=crop&q=80&w=500"
   },
   {
     id: 2,
     name: "Agriculture",
-    icon: <FlaskConical className="h-8 w-8 text-green-500" />,
+    icon: <Leaf className="h-8 w-8 text-green-500" />,
     description: "Chemicals for crop protection and soil enhancement.",
-    chemicals: ["Ammonium Nitrate", "Potassium Chloride", "Phosphoric Acid", "Urea"],
+    chemicals: ["Organic Fertilizer", "Nitrogen Fertilizer", "Insecticides", "Rodenticide"],
     image: "https://images.unsplash.com/photo-1605000797499-95a51c5269ae?ixlib=rb-1.2.1&auto=format&fit=crop&q=80&w=500"
   },
   {
     id: 3,
-    name: "Petroleum & Refining",
-    icon: <Factory className="h-8 w-8 text-amber-500" />,
+    name: "Petrochemical",
+    icon: <Oil className="h-8 w-8 text-amber-500" />,
     description: "Chemicals for fuel production and oil processing.",
-    chemicals: ["Methyl tert-butyl ether", "Hydrogen Sulfide", "Tetraethyl Lead", "Catalytic Agents"],
+    chemicals: ["Benzene", "Propylene", "Ethylene oxide", "Aromatic compounds"],
     image: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?ixlib=rb-1.2.1&auto=format&fit=crop&q=80&w=500"
   },
   {
     id: 4,
-    name: "Water Treatment",
-    icon: <Beaker className="h-8 w-8 text-blue-500" />,
-    description: "Chemicals for water purification and treatment.",
-    chemicals: ["Aluminum Sulfate", "Sodium Hypochlorite", "Polyaluminum Chloride", "Activated Carbon"],
+    name: "Paints & Coatings",
+    icon: <Paintbrush className="h-8 w-8 text-blue-500" />,
+    description: "Chemicals for various painting and coating applications.",
+    chemicals: ["Building Coating", "Car Paint", "Furniture Paint", "Boat Paint"],
     image: "https://images.unsplash.com/photo-1584610904400-ccd122fe6f86?ixlib=rb-1.2.1&auto=format&fit=crop&q=80&w=500"
+  },
+  {
+    id: 5,
+    name: "Inorganic Chemicals",
+    icon: <Flask className="h-8 w-8 text-purple-500" />,
+    description: "Basic inorganic chemical compounds and solutions.",
+    chemicals: ["Inorganic Salts", "Oxide", "Alkali", "Inorganic Acids"],
+    image: "https://images.unsplash.com/photo-1603126857599-f6e157fa2fe6?ixlib=rb-1.2.1&auto=format&fit=crop&q=80&w=500"
+  },
+  {
+    id: 6,
+    name: "Organic Chemicals",
+    icon: <Beaker className="h-8 w-8 text-rose-500" />,
+    description: "Essential organic compounds for diverse applications.",
+    chemicals: ["Organic Acid", "Hydrocarbon Derivatives", "Alcohol Derivatives", "Ester Derivatives"],
+    image: "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?ixlib=rb-1.2.1&auto=format&fit=crop&q=80&w=500"
+  },
+  {
+    id: 7,
+    name: "Additives",
+    icon: <PenTool className="h-8 w-8 text-teal-500" />,
+    description: "Chemical additives for various industries.",
+    chemicals: ["Food Additives", "Feed Additives", "Superplasticizers", "Stabilizers"],
+    image: "https://images.unsplash.com/photo-1616408728625-MCfJrJBIJqo?ixlib=rb-1.2.1&auto=format&fit=crop&q=80&w=500"
+  },
+  {
+    id: 8,
+    name: "Solvents",
+    icon: <TestTube className="h-8 w-8 text-orange-500" />,
+    description: "Various solvents for industrial applications.",
+    chemicals: ["Glycerin", "Acetone", "Toluene", "Methanol"],
+    image: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-1.2.1&auto=format&fit=crop&q=80&w=500"
   }
 ];
 

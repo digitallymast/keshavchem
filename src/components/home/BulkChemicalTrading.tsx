@@ -7,8 +7,13 @@ import {
   Package2, 
   Truck, 
   ShieldCheck, 
-  BarChart4
+  BarChart4,
+  Oil,
+  Droplet,
+  Factory,
+  Zap
 } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const bulkCategories = [
   {
@@ -31,6 +36,37 @@ const bulkCategories = [
   }
 ];
 
+const rawProducts = [
+  {
+    name: "Crude Oil",
+    icon: <Oil className="h-10 w-10 text-gray-700" />,
+    description: "Raw petroleum before refining",
+    specifications: ["Sweet/Sour Crude", "Light/Heavy Crude", "API Gravity", "Sulfur Content"],
+    applications: ["Oil Refining", "Petrochemical Production", "Fuel Manufacturing"]
+  },
+  {
+    name: "Diesel",
+    icon: <Droplet className="h-10 w-10 text-amber-700" />,
+    description: "Fuel for diesel engines",
+    specifications: ["Cetane Number", "Sulfur Content", "Flash Point", "Cloud Point"],
+    applications: ["Transportation", "Heavy Machinery", "Power Generation", "Marine Applications"]
+  },
+  {
+    name: "Naphtha",
+    icon: <Zap className="h-10 w-10 text-yellow-600" />,
+    description: "Light petroleum distillate",
+    specifications: ["Paraffin Content", "Boiling Range", "Aromatics Content", "Density"],
+    applications: ["Petrochemical Feedstock", "Solvent", "Gasoline Blending", "Chemical Manufacturing"]
+  },
+  {
+    name: "Furnace Oils",
+    icon: <Factory className="h-10 w-10 text-red-700" />,
+    description: "Heavy fuel oils for industrial heating",
+    specifications: ["Viscosity", "Sulfur Content", "Pour Point", "Calorific Value"],
+    applications: ["Industrial Heating", "Boilers", "Power Generation", "Marine Engines"]
+  }
+];
+
 export default function BulkChemicalTrading() {
   return (
     <section className="py-16 bg-white">
@@ -43,32 +79,81 @@ export default function BulkChemicalTrading() {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          {bulkCategories.map((category, index) => (
-            <div key={index} className="relative overflow-hidden rounded-lg shadow-md group">
-              <img 
-                src={category.image} 
-                alt={category.name}
-                className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-6">
-                <h3 className="text-xl font-bold text-white mb-2">{category.name}</h3>
-                <p className="text-white/80 text-sm mb-1">MOQ: {category.moq}</p>
-                <p className="text-white/80 text-sm">{category.price}</p>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className="mt-3 bg-white/10 border-white/20 text-white hover:bg-white/20"
-                  asChild
-                >
-                  <Link to={`/chemicals?category=${category.name.toLowerCase()}&bulk=true`}>
-                    View Offerings
-                  </Link>
-                </Button>
-              </div>
+        <Tabs defaultValue="chemicals" className="mb-12">
+          <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 mb-8">
+            <TabsTrigger value="chemicals">Bulk Chemicals</TabsTrigger>
+            <TabsTrigger value="raw">Raw Products</TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="chemicals">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {bulkCategories.map((category, index) => (
+                <div key={index} className="relative overflow-hidden rounded-lg shadow-md group">
+                  <img 
+                    src={category.image} 
+                    alt={category.name}
+                    className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-6">
+                    <h3 className="text-xl font-bold text-white mb-2">{category.name}</h3>
+                    <p className="text-white/80 text-sm mb-1">MOQ: {category.moq}</p>
+                    <p className="text-white/80 text-sm">{category.price}</p>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="mt-3 bg-white/10 border-white/20 text-white hover:bg-white/20"
+                      asChild
+                    >
+                      <Link to={`/chemicals?category=${category.name.toLowerCase()}&bulk=true`}>
+                        View Offerings
+                      </Link>
+                    </Button>
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </TabsContent>
+          
+          <TabsContent value="raw">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {rawProducts.map((product, index) => (
+                <div key={index} className="bg-keshav-50 rounded-lg p-6 transition-shadow hover:shadow-lg">
+                  <div className="flex justify-center mb-4">
+                    {product.icon}
+                  </div>
+                  <h3 className="text-xl font-bold text-keshav-800 text-center mb-3">{product.name}</h3>
+                  <p className="text-gray-600 text-sm mb-4 text-center">{product.description}</p>
+                  
+                  <div className="space-y-4">
+                    <div>
+                      <h4 className="font-medium text-sm text-keshav-700 mb-2">Specifications:</h4>
+                      <ul className="text-sm text-gray-600 list-disc pl-5 space-y-1">
+                        {product.specifications.map((spec, i) => (
+                          <li key={i}>{spec}</li>
+                        ))}
+                      </ul>
+                    </div>
+                    
+                    <div>
+                      <h4 className="font-medium text-sm text-keshav-700 mb-2">Applications:</h4>
+                      <ul className="text-sm text-gray-600 list-disc pl-5 space-y-1">
+                        {product.applications.map((app, i) => (
+                          <li key={i}>{app}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                  
+                  <div className="mt-5 pt-4 border-t border-gray-200">
+                    <Button className="w-full bg-keshav-600 hover:bg-keshav-700" asChild>
+                      <Link to="/bulk-quote?product=raw">Request Quote</Link>
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </TabsContent>
+        </Tabs>
         
         <div className="bg-keshav-50 rounded-xl p-6 md:p-10">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
