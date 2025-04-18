@@ -1,4 +1,3 @@
-
 import { useParams, Link } from "react-router-dom";
 import { useState } from "react";
 import MainLayout from "@/components/layout/MainLayout";
@@ -12,7 +11,9 @@ import {
   AlertCircleIcon,
   ShieldIcon,
   PackageIcon,
-  InfoIcon
+  InfoIcon,
+  Download,
+  PlusCircle
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -21,6 +22,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/components/ui/use-toast";
 import { useIsMobile } from "@/hooks/use-mobile";
+import ShareButtons from "@/components/common/ShareButtons";
 
 // Mock data - in a real app, this would come from an API
 const mockChemicals = [
@@ -245,6 +247,8 @@ const ChemicalDetail = () => {
       description: `${quantity} unit(s) of ${chemical.name} added to your cart.`,
     });
   };
+  
+  const shareUrl = window.location.href;
   
   return (
     <MainLayout>
