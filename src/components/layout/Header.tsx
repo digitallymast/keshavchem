@@ -10,7 +10,8 @@ import {
   Package2, 
   Search, 
   Warehouse, 
-  X 
+  X,
+  Beaker 
 } from "lucide-react";
 
 export default function Header() {
@@ -25,7 +26,8 @@ export default function Header() {
       <div className="container mx-auto px-4 flex justify-between items-center h-16">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2">
-          <span className="font-bold text-xl md:text-2xl bg-gradient-to-r from-keshav-600 to-chem-600 bg-clip-text text-transparent">
+          <Beaker size={24} className="text-primary" strokeWidth={2.5} />
+          <span className="font-montserrat font-bold text-xl md:text-2xl text-neutral-navy">
             KeshavChem
           </span>
         </Link>
