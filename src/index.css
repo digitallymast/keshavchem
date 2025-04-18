@@ -101,7 +101,7 @@
 
 @layer components {
   .keshav-gradient {
-    @apply bg-gradient-to-br from-primary to-accent-teal;
+    @apply bg-gradient-to-br from-primary to-chem-500;
   }
   
   .page-container {
