@@ -1,7 +1,7 @@
 
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
-import { ExternalLink, Factory, Beaker, FlaskConical, TestTube, Paintbrush, Leaf, Flask, Oil, PenTool, Pill } from "lucide-react";
+import { ExternalLink, Factory, FlaskConical, TestTube, Paintbrush, Leaf, FlaskRound, Fuel, PenTool, Pill } from "lucide-react";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 
 // Industry sectors with their common chemicals

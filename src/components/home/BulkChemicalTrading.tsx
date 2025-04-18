@@ -1,4 +1,3 @@
-
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { 
@@ -8,12 +7,11 @@ import {
   Truck, 
   ShieldCheck, 
   BarChart4,
-  Oil,
+  Fuel,
   Droplet,
   Factory,
-  Zap
+  FlaskConical
 } from "lucide-react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const bulkCategories = [
   {
@@ -39,7 +37,7 @@ const bulkCategories = [
 const rawProducts = [
   {
     name: "Crude Oil",
-    icon: <Oil className="h-10 w-10 text-gray-700" />,
+    icon: <Fuel className="h-10 w-10 text-gray-700" />,
     description: "Raw petroleum before refining",
     specifications: ["Sweet/Sour Crude", "Light/Heavy Crude", "API Gravity", "Sulfur Content"],
     applications: ["Oil Refining", "Petrochemical Production", "Fuel Manufacturing"]
