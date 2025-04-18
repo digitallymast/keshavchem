@@ -1,6 +1,6 @@
 
 import { Button } from "@/components/ui/button";
-import { Copy, Mail, Share2, WhatsApp } from "lucide-react";
+import { Copy, Mail, Share2 } from "lucide-react";
 import { toast } from "sonner";
 
 interface ShareButtonsProps {
@@ -33,7 +33,7 @@ const ShareButtons = ({ url, title, showLabel = false }: ShareButtonsProps) => {
         onClick={shareViaWhatsApp}
         className="flex items-center gap-2"
       >
-        <WhatsApp size={16} />
+        <Share2 size={16} />
         {showLabel && "WhatsApp"}
       </Button>
       
