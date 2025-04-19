@@ -1,4 +1,3 @@
-
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { 
@@ -11,7 +10,6 @@ import {
   Fuel,
   Droplet,
   Factory,
-  FlaskConical,
   Zap
 } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -41,30 +39,22 @@ const rawProducts = [
   {
     name: "Crude Oil",
     icon: <Fuel className="h-10 w-10 text-gray-700" />,
-    description: "Raw petroleum before refining",
-    specifications: ["Sweet/Sour Crude", "Light/Heavy Crude", "API Gravity", "Sulfur Content"],
-    applications: ["Oil Refining", "Petrochemical Production", "Fuel Manufacturing"]
+    description: "Raw petroleum before refining"
   },
   {
     name: "Diesel",
     icon: <Droplet className="h-10 w-10 text-amber-700" />,
-    description: "Fuel for diesel engines",
-    specifications: ["Cetane Number", "Sulfur Content", "Flash Point", "Cloud Point"],
-    applications: ["Transportation", "Heavy Machinery", "Power Generation", "Marine Applications"]
+    description: "Fuel for diesel engines"
   },
   {
     name: "Naphtha",
     icon: <Zap className="h-10 w-10 text-yellow-600" />,
-    description: "Light petroleum distillate",
-    specifications: ["Paraffin Content", "Boiling Range", "Aromatics Content", "Density"],
-    applications: ["Petrochemical Feedstock", "Solvent", "Gasoline Blending", "Chemical Manufacturing"]
+    description: "Light petroleum distillate"
   },
   {
     name: "Furnace Oils",
     icon: <Factory className="h-10 w-10 text-red-700" />,
-    description: "Heavy fuel oils for industrial heating",
-    specifications: ["Viscosity", "Sulfur Content", "Pour Point", "Calorific Value"],
-    applications: ["Industrial Heating", "Boilers", "Power Generation", "Marine Engines"]
+    description: "Heavy fuel oils for industrial heating"
   }
 ];
 
@@ -124,26 +114,6 @@ export default function BulkChemicalTrading() {
                   </div>
                   <h3 className="text-xl font-bold text-keshav-800 text-center mb-3">{product.name}</h3>
                   <p className="text-gray-600 text-sm mb-4 text-center">{product.description}</p>
-                  
-                  <div className="space-y-4">
-                    <div>
-                      <h4 className="font-medium text-sm text-keshav-700 mb-2">Specifications:</h4>
-                      <ul className="text-sm text-gray-600 list-disc pl-5 space-y-1">
-                        {product.specifications.map((spec, i) => (
-                          <li key={i}>{spec}</li>
-                        ))}
-                      </ul>
-                    </div>
-                    
-                    <div>
-                      <h4 className="font-medium text-sm text-keshav-700 mb-2">Applications:</h4>
-                      <ul className="text-sm text-gray-600 list-disc pl-5 space-y-1">
-                        {product.applications.map((app, i) => (
-                          <li key={i}>{app}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
                   
                   <div className="mt-5 pt-4 border-t border-gray-200">
                     <Button className="w-full bg-keshav-600 hover:bg-keshav-700" asChild>
