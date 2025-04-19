@@ -9,7 +9,7 @@ interface ChemicalHeaderProps {
 
 const ChemicalHeader = ({ name, cas, category }: ChemicalHeaderProps) => {
   return (
-    <div className="flex justify-between items-start">
+    <div className="flex justify-between items-start animate-fade-in">
       <div>
         <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
           {name}
