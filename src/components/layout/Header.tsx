@@ -1,7 +1,8 @@
-
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Button } from "@/components/ui/button";
+import LanguageSwitcher from './LanguageSwitcher';
 import { 
   ChevronDown,
   LayoutDashboard, 
@@ -16,6 +17,7 @@ import {
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { t } = useTranslation();
   
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -36,11 +38,11 @@ export default function Header() {
         <nav className="hidden md:flex items-center gap-6">
           <Link to="/chemicals" className="text-gray-700 hover:text-keshav-600 font-medium flex items-center gap-1">
             <Package2 size={18} />
-            <span>Chemicals</span>
+            <span>{t('chemicals')}</span>
           </Link>
           <Link to="/storage" className="text-gray-700 hover:text-keshav-600 font-medium flex items-center gap-1">
             <Warehouse size={18} />
-            <span>Storage</span>
+            <span>{t('storage')}</span>
           </Link>
           <div className="relative group">
             <button className="text-gray-700 hover:text-keshav-600 font-medium flex items-center gap-1">
@@ -62,18 +64,19 @@ export default function Header() {
         
         {/* Action Buttons */}
         <div className="hidden md:flex items-center gap-3">
+          <LanguageSwitcher />
           <Button variant="outline" size="sm">
             <Search size={18} className="mr-2" />
-            Search
+            {t('search')}
           </Button>
           <Button variant="outline" size="sm" asChild>
             <Link to="/login">
               <LogIn size={18} className="mr-2" />
-              Login
+              {t('login')}
             </Link>
           </Button>
           <Button size="sm" asChild className="bg-keshav-600 hover:bg-keshav-700">
-            <Link to="/register">Register</Link>
+            <Link to="/register">{t('register')}</Link>
           </Button>
         </div>
         
@@ -96,7 +99,7 @@ export default function Header() {
               onClick={() => setMobileMenuOpen(false)}
             >
               <Package2 size={18} />
-              <span>Chemicals</span>
+              <span>{t('chemicals')}</span>
             </Link>
             <Link 
               to="/storage" 
@@ -104,7 +107,7 @@ export default function Header() {
               onClick={() => setMobileMenuOpen(false)}
             >
               <Warehouse size={18} />
-              <span>Storage</span>
+              <span>{t('storage')}</span>
             </Link>
             <Link 
               to="/transporters" 
@@ -124,12 +127,12 @@ export default function Header() {
               <Button asChild variant="outline" className="w-full">
                 <Link to="/login" onClick={() => setMobileMenuOpen(false)}>
                   <LogIn size={18} className="mr-2" />
-                  Login
+                  {t('login')}
                 </Link>
               </Button>
               <Button asChild className="w-full bg-keshav-600 hover:bg-keshav-700">
                 <Link to="/register" onClick={() => setMobileMenuOpen(false)}>
-                  Register
+                  {t('register')}
                 </Link>
               </Button>
               <Button asChild variant="secondary" className="w-full">
