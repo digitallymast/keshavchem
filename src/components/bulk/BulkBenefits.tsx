@@ -1,6 +1,7 @@
 
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
+import { useTranslation } from 'react-i18next';
 import { 
   BarChart4, 
   ShieldCheck, 
@@ -29,31 +30,33 @@ function BenefitItem({ icon, title, description }: BenefitItemProps) {
 }
 
 export function BulkBenefits() {
+  const { t } = useTranslation();
+
   const benefits = [
     {
       icon: <BarChart4 className="h-6 w-6 text-keshav-600 mr-3 mt-0.5" />,
-      title: "Volume Discounts",
-      description: "Significant cost savings on large orders"
+      title: t('bulk.volume_discounts'),
+      description: t('bulk.volume_description')
     },
     {
       icon: <ShieldCheck className="h-6 w-6 text-keshav-600 mr-3 mt-0.5" />,
-      title: "Quality Assurance",
-      description: "All bulk chemicals meet strict industry standards"
+      title: t('bulk.quality_assurance'),
+      description: t('bulk.quality_description')
     },
     {
       icon: <Warehouse className="h-6 w-6 text-keshav-600 mr-3 mt-0.5" />,
-      title: "Storage Solutions",
-      description: "Integrated storage options for bulk purchases"
+      title: t('bulk.storage_solutions'),
+      description: t('bulk.storage_description')
     },
     {
       icon: <Truck className="h-6 w-6 text-keshav-600 mr-3 mt-0.5" />,
-      title: "Logistics Support",
-      description: "Coordinated delivery to your facility"
+      title: t('bulk.logistics_support'),
+      description: t('bulk.logistics_description')
     },
     {
       icon: <Package2 className="h-6 w-6 text-keshav-600 mr-3 mt-0.5" />,
-      title: "Customized Packaging",
-      description: "Options tailored to your operational needs"
+      title: t('bulk.customized_packaging'),
+      description: t('bulk.packaging_description')
     }
   ];
 
@@ -62,7 +65,7 @@ export function BulkBenefits() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
         <div>
           <h3 className="text-xl md:text-2xl font-bold text-keshav-800 mb-4">
-            Bulk Purchase Benefits
+            {t('bulk.benefits')}
           </h3>
           <ul className="space-y-4">
             {benefits.map((benefit, index) => (
@@ -72,13 +75,13 @@ export function BulkBenefits() {
         </div>
         <div>
           <div className="bg-white p-6 rounded-lg shadow-sm">
-            <h4 className="font-bold text-keshav-800 mb-4">Request Bulk Quote</h4>
+            <h4 className="font-bold text-keshav-800 mb-4">{t('bulk.quote_title')}</h4>
             <p className="text-sm text-gray-600 mb-6">
-              Our team of bulk chemical specialists will provide competitive quotes for your high-volume requirements.
+              {t('bulk.quote_description')}
             </p>
             <Button className="w-full bg-keshav-600 hover:bg-keshav-700" asChild>
               <Link to="/bulk-quote">
-                Request Quote
+                {t('requestQuote')}
                 <ArrowRight size={16} className="ml-2" />
               </Link>
             </Button>

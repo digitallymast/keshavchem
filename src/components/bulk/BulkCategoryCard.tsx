@@ -1,6 +1,7 @@
 
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
+import { useTranslation } from 'react-i18next';
 
 interface BulkCategoryProps {
   name: string;
@@ -10,6 +11,8 @@ interface BulkCategoryProps {
 }
 
 export function BulkCategoryCard({ name, image, moq, price }: BulkCategoryProps) {
+  const { t } = useTranslation();
+  
   return (
     <div className="relative overflow-hidden rounded-lg shadow-md group">
       <img 
@@ -28,7 +31,7 @@ export function BulkCategoryCard({ name, image, moq, price }: BulkCategoryProps)
           asChild
         >
           <Link to={`/chemicals?category=${name.toLowerCase()}&bulk=true`}>
-            View Offerings
+            {t('viewDetails')}
           </Link>
         </Button>
       </div>

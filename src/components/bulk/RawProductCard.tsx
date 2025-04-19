@@ -1,7 +1,7 @@
 
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
-import { LucideIcon } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface RawProductProps {
   name: string;
@@ -10,6 +10,8 @@ interface RawProductProps {
 }
 
 export function RawProductCard({ name, icon, description }: RawProductProps) {
+  const { t } = useTranslation();
+  
   return (
     <div className="bg-keshav-50 rounded-lg p-6 transition-shadow hover:shadow-lg">
       <div className="flex justify-center mb-4">
@@ -20,7 +22,7 @@ export function RawProductCard({ name, icon, description }: RawProductProps) {
       
       <div className="mt-5 pt-4 border-t border-gray-200">
         <Button className="w-full bg-keshav-600 hover:bg-keshav-700" asChild>
-          <Link to="/bulk-quote?product=raw">Request Quote</Link>
+          <Link to="/bulk-quote?product=raw">{t('requestQuote')}</Link>
         </Button>
       </div>
     </div>

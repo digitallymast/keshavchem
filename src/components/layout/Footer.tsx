@@ -1,8 +1,12 @@
 
 import { Link } from 'react-router-dom';
 import { Beaker } from "lucide-react";
+import { useTranslation } from 'react-i18next';
+import RouterGuard from '../common/RouterGuard';
 
 export default function Footer() {
+  const { t } = useTranslation();
+  
   // Check if we're in a Router context
   // This is a simple approach to prevent the error when components are used in contexts
   // where Router might not be available (like in tests or isolated environments)
@@ -39,66 +43,66 @@ export default function Footer() {
               </a>
             )}
             <p className="text-gray-600 text-sm">
-              The trusted B2B marketplace for the chemical industry, connecting buyers and sellers worldwide.
+              {t('footer.description')}
             </p>
           </div>
           
           <div>
-            <h3 className="font-semibold mb-4">Products</h3>
+            <h3 className="font-semibold mb-4">{t('footer.products')}</h3>
             <ul className="space-y-2">
               {routerAvailable ? (
                 <>
-                  <li><Link to="/chemicals" className="text-gray-600 hover:text-keshav-600">Chemicals</Link></li>
+                  <li><Link to="/chemicals" className="text-gray-600 hover:text-keshav-600">{t('chemicals')}</Link></li>
                   <li><Link to="/chemicals?category=acids" className="text-gray-600 hover:text-keshav-600">Acids & Bases</Link></li>
                   <li><Link to="/chemicals?category=solvents" className="text-gray-600 hover:text-keshav-600">Solvents</Link></li>
-                  <li><Link to="/bulk-quote" className="text-gray-600 hover:text-keshav-600">Bulk Chemical Trading</Link></li>
+                  <li><Link to="/bulk-quote" className="text-gray-600 hover:text-keshav-600">{t('requestQuote')}</Link></li>
                 </>
               ) : (
                 <>
-                  <li><a href="/chemicals" className="text-gray-600 hover:text-keshav-600">Chemicals</a></li>
+                  <li><a href="/chemicals" className="text-gray-600 hover:text-keshav-600">{t('chemicals')}</a></li>
                   <li><a href="/chemicals?category=acids" className="text-gray-600 hover:text-keshav-600">Acids & Bases</a></li>
                   <li><a href="/chemicals?category=solvents" className="text-gray-600 hover:text-keshav-600">Solvents</a></li>
-                  <li><a href="/bulk-quote" className="text-gray-600 hover:text-keshav-600">Bulk Chemical Trading</a></li>
+                  <li><a href="/bulk-quote" className="text-gray-600 hover:text-keshav-600">{t('requestQuote')}</a></li>
                 </>
               )}
             </ul>
           </div>
           
           <div>
-            <h3 className="font-semibold mb-4">Services</h3>
+            <h3 className="font-semibold mb-4">{t('footer.services')}</h3>
             <ul className="space-y-2">
               {routerAvailable ? (
                 <>
-                  <li><Link to="/storage" className="text-gray-600 hover:text-keshav-600">Storage Solutions</Link></li>
-                  <li><Link to="/transporters" className="text-gray-600 hover:text-keshav-600">Transportation</Link></li>
-                  <li><Link to="/freight-forwarders" className="text-gray-600 hover:text-keshav-600">Freight Forwarding</Link></li>
+                  <li><Link to="/storage" className="text-gray-600 hover:text-keshav-600">{t('footer.storage_solutions')}</Link></li>
+                  <li><Link to="/transporters" className="text-gray-600 hover:text-keshav-600">{t('footer.transportation')}</Link></li>
+                  <li><Link to="/freight-forwarders" className="text-gray-600 hover:text-keshav-600">{t('footer.freight_forwarding')}</Link></li>
                 </>
               ) : (
                 <>
-                  <li><a href="/storage" className="text-gray-600 hover:text-keshav-600">Storage Solutions</a></li>
-                  <li><a href="/transporters" className="text-gray-600 hover:text-keshav-600">Transportation</a></li>
-                  <li><a href="/freight-forwarders" className="text-gray-600 hover:text-keshav-600">Freight Forwarding</a></li>
+                  <li><a href="/storage" className="text-gray-600 hover:text-keshav-600">{t('footer.storage_solutions')}</a></li>
+                  <li><a href="/transporters" className="text-gray-600 hover:text-keshav-600">{t('footer.transportation')}</a></li>
+                  <li><a href="/freight-forwarders" className="text-gray-600 hover:text-keshav-600">{t('footer.freight_forwarding')}</a></li>
                 </>
               )}
             </ul>
           </div>
           
           <div>
-            <h3 className="font-semibold mb-4">Company</h3>
+            <h3 className="font-semibold mb-4">{t('footer.company')}</h3>
             <ul className="space-y-2">
               {routerAvailable ? (
                 <>
-                  <li><Link to="/about" className="text-gray-600 hover:text-keshav-600">About Us</Link></li>
-                  <li><Link to="/contact" className="text-gray-600 hover:text-keshav-600">Contact</Link></li>
-                  <li><Link to="/blog" className="text-gray-600 hover:text-keshav-600">Blog</Link></li>
-                  <li><Link to="/careers" className="text-gray-600 hover:text-keshav-600">Careers</Link></li>
+                  <li><Link to="/about" className="text-gray-600 hover:text-keshav-600">{t('footer.about_us')}</Link></li>
+                  <li><Link to="/contact" className="text-gray-600 hover:text-keshav-600">{t('footer.contact')}</Link></li>
+                  <li><Link to="/blog" className="text-gray-600 hover:text-keshav-600">{t('footer.blog')}</Link></li>
+                  <li><Link to="/careers" className="text-gray-600 hover:text-keshav-600">{t('footer.careers')}</Link></li>
                 </>
               ) : (
                 <>
-                  <li><a href="/about" className="text-gray-600 hover:text-keshav-600">About Us</a></li>
-                  <li><a href="/contact" className="text-gray-600 hover:text-keshav-600">Contact</a></li>
-                  <li><a href="/blog" className="text-gray-600 hover:text-keshav-600">Blog</a></li>
-                  <li><a href="/careers" className="text-gray-600 hover:text-keshav-600">Careers</a></li>
+                  <li><a href="/about" className="text-gray-600 hover:text-keshav-600">{t('footer.about_us')}</a></li>
+                  <li><a href="/contact" className="text-gray-600 hover:text-keshav-600">{t('footer.contact')}</a></li>
+                  <li><a href="/blog" className="text-gray-600 hover:text-keshav-600">{t('footer.blog')}</a></li>
+                  <li><a href="/careers" className="text-gray-600 hover:text-keshav-600">{t('footer.careers')}</a></li>
                 </>
               )}
             </ul>
@@ -107,19 +111,19 @@ export default function Footer() {
         
         <div className="border-t mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-sm text-gray-600">
-            &copy; {new Date().getFullYear()} KeshavChem. All rights reserved.
+            &copy; {new Date().getFullYear()} KeshavChem. {t('footer.rights_reserved')}
           </p>
           
           <div className="flex gap-6 mt-4 md:mt-0">
             {routerAvailable ? (
               <>
-                <Link to="/terms" className="text-sm text-gray-600 hover:text-keshav-600">Terms</Link>
-                <Link to="/privacy" className="text-sm text-gray-600 hover:text-keshav-600">Privacy</Link>
+                <Link to="/terms" className="text-sm text-gray-600 hover:text-keshav-600">{t('footer.terms')}</Link>
+                <Link to="/privacy" className="text-sm text-gray-600 hover:text-keshav-600">{t('footer.privacy')}</Link>
               </>
             ) : (
               <>
-                <a href="/terms" className="text-sm text-gray-600 hover:text-keshav-600">Terms</a>
-                <a href="/privacy" className="text-sm text-gray-600 hover:text-keshav-600">Privacy</a>
+                <a href="/terms" className="text-sm text-gray-600 hover:text-keshav-600">{t('footer.terms')}</a>
+                <a href="/privacy" className="text-sm text-gray-600 hover:text-keshav-600">{t('footer.privacy')}</a>
               </>
             )}
           </div>

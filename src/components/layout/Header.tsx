@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -46,16 +47,16 @@ export default function Header() {
           </Link>
           <div className="relative group">
             <button className="text-gray-700 hover:text-keshav-600 font-medium flex items-center gap-1">
-              <span>More</span>
+              <span>{t('more')}</span>
               <ChevronDown size={16} />
             </button>
             <div className="absolute right-0 top-full mt-2 w-48 bg-white shadow-lg rounded-md hidden group-hover:block">
               <div className="py-2">
                 <Link to="/transporters" className="block px-4 py-2 hover:bg-gray-100">
-                  Transporters
+                  {t('transporters')}
                 </Link>
                 <Link to="/freight-forwarders" className="block px-4 py-2 hover:bg-gray-100">
-                  Freight Forwarders
+                  {t('freight_forwarders')}
                 </Link>
               </div>
             </div>
@@ -114,14 +115,14 @@ export default function Header() {
               className="flex items-center gap-3 px-3 py-2 hover:bg-gray-100 rounded-md"
               onClick={() => setMobileMenuOpen(false)}
             >
-              <span>Transporters</span>
+              <span>{t('transporters')}</span>
             </Link>
             <Link 
               to="/freight-forwarders" 
               className="flex items-center gap-3 px-3 py-2 hover:bg-gray-100 rounded-md"
               onClick={() => setMobileMenuOpen(false)}
             >
-              <span>Freight Forwarders</span>
+              <span>{t('freight_forwarders')}</span>
             </Link>
             <div className="mt-2 flex flex-col gap-3">
               <Button asChild variant="outline" className="w-full">
@@ -138,7 +139,7 @@ export default function Header() {
               <Button asChild variant="secondary" className="w-full">
                 <Link to="/dashboard" onClick={() => setMobileMenuOpen(false)}>
                   <LayoutDashboard size={18} className="mr-2" />
-                  Dashboard
+                  {t('dashboard')}
                 </Link>
               </Button>
             </div>
