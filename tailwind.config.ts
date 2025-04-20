@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -46,6 +45,12 @@ export default {
         chem: {
           500: "#10B981",
           600: "#059669",
+        },
+        dark: {
+          DEFAULT: "#1A1F2C",
+          foreground: "#F8FAFC",
+          card: "#222836",
+          muted: "#334155"
         }
       },
       borderRadius: {

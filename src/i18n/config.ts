@@ -1,4 +1,3 @@
-
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
@@ -63,6 +62,24 @@ i18n.use(initReactI18next).init({
         "bulk.packaging_description": "Options tailored to your operational needs",
         "bulk.quote_title": "Request Bulk Quote",
         "bulk.quote_description": "Our team of bulk chemical specialists will provide competitive quotes for your high-volume requirements."
+      },
+      services: {
+        chemicals: {
+          title: "Chemical Listings",
+          description: "Find chemicals with detailed specifications and safety data."
+        },
+        storage: {
+          title: "Storage Solutions",
+          description: "Access tanks and warehouses for your chemical storage needs."
+        },
+        transport: {
+          title: "Transportation",
+          description: "Connect with certified chemical transporters and freight forwarders."
+        },
+        compliance: {
+          title: "Compliance",
+          description: "Manage documentation and ensure regulatory compliance."
+        }
       }
     },
     es: {
