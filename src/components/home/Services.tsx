@@ -1,4 +1,6 @@
 
+import ServiceFeatures from './ServiceFeatures';
+
 export default function Services() {
   return (
     <section className="border-t border-gray-200 bg-white py-12">
