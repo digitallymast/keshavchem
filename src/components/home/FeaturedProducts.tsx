@@ -1,9 +1,9 @@
+
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ExternalLink, Lock } from 'lucide-react';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { ExternalLink } from 'lucide-react';
 
 const featuredChemicals = [
   {
@@ -53,8 +53,6 @@ const featuredChemicals = [
 ];
 
 export default function FeaturedProducts() {
-  const isSubscribed = false;
-
   return (
     <section className="py-16 bg-white">
       <div className="container mx-auto px-4">
@@ -91,25 +89,9 @@ export default function FeaturedProducts() {
                   <p className="font-medium text-keshav-700">{chemical.price}</p>
                   <p className="text-xs mt-1">MOQ: {chemical.moq}</p>
                 </div>
-                {isSubscribed ? (
-                  <div className="mt-3 text-xs text-gray-500">
-                    <span>Seller: {chemical.seller}</span>
-                  </div>
-                ) : (
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <div className="mt-3 flex items-center gap-1.5 text-xs text-gray-400 cursor-help">
-                          <Lock size={12} />
-                          <span>Subscribe to view seller details</span>
-                        </div>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>Unlock seller information with a subscription</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                )}
+                <div className="mt-3 text-xs text-gray-500">
+                  <span>Seller: {chemical.seller}</span>
+                </div>
               </CardContent>
               <CardFooter className="pt-0">
                 <Button variant="outline" asChild className="w-full">

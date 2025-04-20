@@ -25,7 +25,7 @@ const industries = [
   {
     id: 3,
     name: "Petrochemical",
-    icon: <Fuel className="h-8 w-8 text-amber-500" />,
+    icon: <Oil className="h-8 w-8 text-amber-500" />,
     description: "Chemicals for fuel production and oil processing.",
     chemicals: ["Benzene", "Propylene", "Ethylene oxide", "Aromatic compounds"],
     image: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?ixlib=rb-1.2.1&auto=format&fit=crop&q=80&w=500"
@@ -41,7 +41,7 @@ const industries = [
   {
     id: 5,
     name: "Inorganic Chemicals",
-    icon: <FlaskRound className="h-8 w-8 text-purple-500" />,
+    icon: <Flask className="h-8 w-8 text-purple-500" />,
     description: "Basic inorganic chemical compounds and solutions.",
     chemicals: ["Inorganic Salts", "Oxide", "Alkali", "Inorganic Acids"],
     image: "https://images.unsplash.com/photo-1603126857599-f6e157fa2fe6?ixlib=rb-1.2.1&auto=format&fit=crop&q=80&w=500"
@@ -49,7 +49,7 @@ const industries = [
   {
     id: 6,
     name: "Organic Chemicals",
-    icon: <FlaskConical className="h-8 w-8 text-rose-500" />,
+    icon: <Beaker className="h-8 w-8 text-rose-500" />,
     description: "Essential organic compounds for diverse applications.",
     chemicals: ["Organic Acid", "Hydrocarbon Derivatives", "Alcohol Derivatives", "Ester Derivatives"],
     image: "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?ixlib=rb-1.2.1&auto=format&fit=crop&q=80&w=500"

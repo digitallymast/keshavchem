@@ -1,9 +1,9 @@
+
 import { Link } from "react-router-dom";
 import { Building, CheckIcon, MapPin } from "lucide-react";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import ShareButtons from "@/components/common/ShareButtons";
 
 export interface StorageFacility {
   id: number;
@@ -26,8 +26,6 @@ interface StorageCardProps {
 }
 
 const StorageCard = ({ storage, featured = false }: StorageCardProps) => {
-  const shareUrl = `${window.location.origin}/storage/${storage.id}`;
-  
   return (
     <Card className={`overflow-hidden card-hover ${featured ? 'border-keshav-200 shadow-md' : ''}`}>
       <div className={`relative h-48 overflow-hidden ${featured ? 'border-b border-keshav-100' : ''}`}>
@@ -85,14 +83,10 @@ const StorageCard = ({ storage, featured = false }: StorageCardProps) => {
           )}
         </div>
       </CardContent>
-      <CardFooter className="pt-0 flex-col gap-3">
+      <CardFooter className="pt-0">
         <Button variant="outline" asChild className="w-full">
           <Link to={`/storage/${storage.id}`}>View Details</Link>
         </Button>
-        <ShareButtons 
-          url={shareUrl}
-          title={`Check out ${storage.name} on KeshavChem`}
-        />
       </CardFooter>
     </Card>
   );

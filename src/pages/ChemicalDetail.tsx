@@ -1,18 +1,28 @@
+
 import { useParams, Link } from "react-router-dom";
 import { useState } from "react";
 import MainLayout from "@/components/layout/MainLayout";
-import { ArrowLeftIcon, ShoppingCartIcon, BeakerIcon, AlertCircleIcon, ShieldIcon, PackageIcon, InfoIcon, CheckIcon } from "lucide-react";
+import { 
+  ArrowLeftIcon, 
+  CheckIcon, 
+  ShoppingCartIcon, 
+  BuildingIcon,
+  FileTextIcon,
+  BeakerIcon,
+  AlertCircleIcon,
+  ShieldIcon,
+  PackageIcon,
+  InfoIcon
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/components/ui/use-toast";
 import { useIsMobile } from "@/hooks/use-mobile";
-import ShareButtons from "@/components/common/ShareButtons";
-import ChemicalHeader from "@/components/chemicals/ChemicalHeader";
-import ChemicalSpecs from "@/components/chemicals/ChemicalSpecs";
-import SupplierInfo from "@/components/chemicals/SupplierInfo";
-import RelatedProducts from "@/components/chemicals/RelatedProducts";
 
+// Mock data - in a real app, this would come from an API
 const mockChemicals = [
   {
     id: "1",
@@ -209,8 +219,10 @@ const ChemicalDetail = () => {
   const isMobile = useIsMobile();
   const [quantity, setQuantity] = useState(1);
   
+  // Find the chemical with the matching ID
   const chemical = mockChemicals.find(chemical => chemical.id === id);
   
+  // Handle case where chemical is not found
   if (!chemical) {
     return (
       <MainLayout>
@@ -234,15 +246,10 @@ const ChemicalDetail = () => {
     });
   };
   
-  const shareUrl = window.location.href;
-  
-  const relatedProducts = mockChemicals
-    .filter(c => c.id !== id && c.category === chemical.category)
-    .slice(0, 4);
-
   return (
     <MainLayout>
       <div className="container mx-auto px-4 py-8">
+        {/* Breadcrumb navigation */}
         <div className="mb-6">
           <Button variant="ghost" size="sm" asChild className="mb-2">
             <Link to="/chemicals" className="flex items-center">
@@ -252,7 +259,9 @@ const ChemicalDetail = () => {
           </Button>
         </div>
         
+        {/* Header section */}
         <div className="flex flex-col lg:flex-row gap-8 mb-8">
+          {/* Product Image */}
           <div className="lg:w-1/3">
             <div className="rounded-lg overflow-hidden border border-gray-200">
               <img 
@@ -263,27 +272,62 @@ const ChemicalDetail = () => {
             </div>
           </div>
           
+          {/* Product Details */}
           <div className="lg:w-2/3">
-            <ChemicalHeader 
-              name={chemical.name}
-              cas={chemical.cas}
-              category={chemical.category}
-            />
-            
-            <ChemicalSpecs 
-              purity={chemical.purity}
-              price={chemical.price}
-              pricePerKg={chemical.pricePerKg}
-              moq={chemical.moq}
-              seller={chemical.seller}
-              verified={chemical.verified}
-            />
-            
-            <div className="mt-6">
-              <h2 className="text-lg font-medium mb-2">Product Description</h2>
-              <p className="text-gray-700">{chemical.description}</p>
+            <div className="flex justify-between items-start">
+              <div>
+                <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
+                  {chemical.name}
+                </h1>
+                <p className="text-gray-500 mt-1">CAS: {chemical.cas}</p>
+              </div>
+              <Badge variant="secondary" className="text-sm">
+                {chemical.category}
+              </Badge>
             </div>
             
+            <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                <div>
+                  <p className="text-sm text-gray-500">Purity</p>
+                  <p className="font-medium">{chemical.purity}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Price Range</p>
+                  <p className="font-medium text-keshav-700">{chemical.price}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Unit Price</p>
+                  <p className="font-medium">{chemical.pricePerKg}/kg</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">MOQ</p>
+                  <p className="font-medium">{chemical.moq}</p>
+                </div>
+                <div className="col-span-2 sm:col-span-1">
+                  <p className="text-sm text-gray-500">Seller</p>
+                  <div className="flex items-center">
+                    <p className="font-medium mr-2">{chemical.seller}</p>
+                    {chemical.verified && (
+                      <span className="inline-flex items-center text-green-600">
+                        <CheckIcon size={14} className="mr-0.5" />
+                        <span className="text-xs">Verified</span>
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            {/* Product Description */}
+            <div className="mt-6">
+              <h2 className="text-lg font-medium mb-2">Product Description</h2>
+              <p className="text-gray-700">
+                {chemical.description}
+              </p>
+            </div>
+            
+            {/* Purchase Action */}
             <div className="mt-8 flex flex-col sm:flex-row sm:items-center gap-3">
               <div className="flex items-center">
                 <Button
@@ -317,16 +361,10 @@ const ChemicalDetail = () => {
                 Request Quote
               </Button>
             </div>
-
-            <div className="mt-4">
-              <ShareButtons 
-                url={shareUrl}
-                title={`Check out ${chemical.name} on KeshavChem`}
-              />
-            </div>
           </div>
         </div>
         
+        {/* Detailed Information Tabs */}
         <div className="mt-12">
           <Tabs defaultValue="specifications" className="w-full">
             <TabsList className={`grid ${isMobile ? 'grid-cols-2' : 'grid-cols-4'} w-full`}>
@@ -335,7 +373,7 @@ const ChemicalDetail = () => {
                 Specifications
               </TabsTrigger>
               <TabsTrigger value="applications">
-                <CheckIcon size={16} className="mr-2" />
+                <FileTextIcon size={16} className="mr-2" />
                 Applications
               </TabsTrigger>
               <TabsTrigger value="packaging">
@@ -440,12 +478,70 @@ const ChemicalDetail = () => {
           </Tabs>
         </div>
         
-        <SupplierInfo 
-          seller={chemical.seller}
-          verified={chemical.verified}
-        />
+        {/* Supplier Information */}
+        <div className="mt-12 mb-6">
+          <h2 className="text-xl font-semibold mb-4">Supplier Information</h2>
+          <Card>
+            <CardContent className="pt-6">
+              <div className="flex items-center">
+                <BuildingIcon size={24} className="text-gray-500 mr-4" />
+                <div>
+                  <h3 className="font-medium">{chemical.seller}</h3>
+                  <div className="flex mt-1 items-center">
+                    {chemical.verified && (
+                      <Badge variant="outline" className="text-green-600 mr-2">
+                        <CheckIcon size={12} className="mr-1" />
+                        Verified Supplier
+                      </Badge>
+                    )}
+                    <span className="text-sm text-gray-500">Member since 2020</span>
+                  </div>
+                  <div className="mt-3">
+                    <Button variant="outline" size="sm">
+                      View Profile
+                    </Button>
+                    <Button variant="ghost" size="sm" className="ml-2">
+                      Contact Supplier
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
         
-        <RelatedProducts products={relatedProducts} />
+        {/* Related Products */}
+        <div className="mt-12">
+          <h2 className="text-xl font-semibold mb-6">Related Products</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {mockChemicals.filter(c => c.id !== id && c.category === chemical.category).slice(0, 4).map((relatedChem) => (
+              <Card key={relatedChem.id} className="overflow-hidden card-hover">
+                <div className="h-48 overflow-hidden">
+                  <img 
+                    src={relatedChem.image} 
+                    alt={relatedChem.name} 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <CardContent className="p-4">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="font-medium">{relatedChem.name}</h3>
+                    <Badge variant="secondary" className="text-xs">
+                      {relatedChem.category}
+                    </Badge>
+                  </div>
+                  <div className="text-sm text-gray-600">
+                    <p>Purity: {relatedChem.purity}</p>
+                    <p className="font-medium text-keshav-700 mt-1">{relatedChem.price}</p>
+                  </div>
+                  <Button variant="outline" asChild className="w-full mt-3">
+                    <Link to={`/chemicals/${relatedChem.id}`}>View Details</Link>
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
       </div>
     </MainLayout>
   );
