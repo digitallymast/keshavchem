@@ -1,3 +1,4 @@
+
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { 
@@ -10,8 +11,10 @@ import {
   Fuel,
   Droplet,
   Factory,
-  FlaskConical
+  FlaskConical,
+  Zap
 } from "lucide-react";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
 const bulkCategories = [
   {
