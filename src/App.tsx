@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -16,7 +15,6 @@ import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 import BulkQuoteRequest from "./pages/BulkQuoteRequest";
 
-// Create a client for react-query
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -31,20 +29,22 @@ const App = () => (
   <I18nextProvider i18n={i18n}>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <Toaster />
-        <Sonner position="top-right" closeButton />
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/chemicals" element={<Chemicals />} />
-          <Route path="/chemicals/:id" element={<ChemicalDetail />} />
-          <Route path="/storage" element={<Storage />} />
-          <Route path="/storage/:id" element={<StorageDetail />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/bulk-quote" element={<BulkQuoteRequest />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <div className="min-h-screen bg-white">
+          <Toaster />
+          <Sonner position="top-right" closeButton />
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/chemicals" element={<Chemicals />} />
+            <Route path="/chemicals/:id" element={<ChemicalDetail />} />
+            <Route path="/storage" element={<Storage />} />
+            <Route path="/storage/:id" element={<StorageDetail />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/bulk-quote" element={<BulkQuoteRequest />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </div>
       </BrowserRouter>
     </QueryClientProvider>
   </I18nextProvider>
