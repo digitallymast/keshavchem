@@ -1,4 +1,3 @@
-
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { ArrowRight, FileText, Package2, Truck, Warehouse } from "lucide-react";
@@ -26,7 +25,7 @@ export default function HeroBanner() {
                 size="lg" 
                 variant="outline" 
                 asChild 
-                className="border-white text-white hover:bg-white/30 hover:text-keshav-100 transition-colors duration-300"
+                className="border-white text-white hover:bg-white/50 hover:text-keshav-900 transition-colors duration-300"
               >
                 <Link to="/chemicals">
                   Browse Chemicals
@@ -68,4 +67,3 @@ export default function HeroBanner() {
     </section>
   );
 }
-
