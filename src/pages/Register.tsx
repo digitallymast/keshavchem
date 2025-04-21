@@ -8,7 +8,7 @@ const Register = () => {
       <div className="sm:mx-auto sm:w-full sm:max-w-md mb-8">
         <Link to="/" className="flex justify-center">
           <span className="font-bold text-2xl md:text-3xl bg-gradient-to-r from-keshav-600 to-chem-600 bg-clip-text text-transparent">
-            KeshavChem
+            Keshavchem
           </span>
         </Link>
         <h2 className="mt-4 text-center text-gray-600">

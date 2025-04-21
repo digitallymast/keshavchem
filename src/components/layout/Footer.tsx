@@ -1,4 +1,3 @@
-
 import { Link } from 'react-router-dom';
 import { Facebook, Linkedin, Twitter } from 'lucide-react';
 
@@ -9,7 +8,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           {/* Company Info */}
           <div>
-            <h3 className="font-bold text-lg mb-4 text-keshav-800">KeshavChem</h3>
+            <h3 className="font-bold text-lg mb-4 text-keshav-800">Keshavchem</h3>
             <p className="text-sm text-gray-600 mb-4">
               The leading B2B marketplace connecting buyers and sellers in the chemical industry.
             </p>

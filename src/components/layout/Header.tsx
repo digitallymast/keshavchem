@@ -26,7 +26,7 @@ export default function Header() {
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2">
           <span className="font-bold text-xl md:text-2xl bg-gradient-to-r from-keshav-600 to-chem-600 bg-clip-text text-transparent">
-            KeshavChem
+            Keshavchem
           </span>
         </Link>
         
