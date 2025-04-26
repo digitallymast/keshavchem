@@ -1,10 +1,8 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
-import Chemicals from "./pages/Chemicals";
 import ChemicalDetail from "./pages/ChemicalDetail";
 import Storage from "./pages/Storage";
 import StorageDetail from "./pages/StorageDetail";
@@ -13,6 +11,7 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 import BulkQuoteRequest from "./pages/BulkQuoteRequest";
+import ChemicalListPage from "./pages/chemicals/ChemicalListPage";
 
 // Create a client for react-query
 const queryClient = new QueryClient({
@@ -32,7 +31,7 @@ const App = () => (
       <Sonner position="top-right" closeButton />
       <Routes>
         <Route path="/" element={<Index />} />
-        <Route path="/chemicals" element={<Chemicals />} />
+        <Route path="/chemicals" element={<ChemicalListPage />} />
         <Route path="/chemicals/:id" element={<ChemicalDetail />} />
         <Route path="/storage" element={<Storage />} />
         <Route path="/storage/:id" element={<StorageDetail />} />
