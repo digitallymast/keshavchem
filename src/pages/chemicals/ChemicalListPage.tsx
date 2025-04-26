@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import MainLayout from "@/components/layout/MainLayout";
@@ -6,6 +5,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import ChemicalGrid from "./components/ChemicalGrid";
 import ChemicalFilterBar from "./components/ChemicalFilterBar";
 import ChemicalSearchBar from "./components/ChemicalSearchBar";
+import { Button } from "@/components/ui/button";
 import { Chemical } from "./types";
 
 // Mock data moved to a separate file
