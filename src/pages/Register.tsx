@@ -12,11 +12,21 @@ const Register = () => {
           </span>
         </Link>
         <h2 className="mt-4 text-center text-gray-600">
-          Create an account to access the B2B Chemical Marketplace
+          Join the B2B Chemical Industry Marketplace
         </h2>
       </div>
       
       <RegisterForm />
+      
+      <div className="mt-6 text-center text-sm text-gray-500">
+        <p>By creating an account, you'll be able to:</p>
+        <ul className="mt-2 space-y-1">
+          <li>View supplier information for chemical products</li>
+          <li>Request quotes and place orders with verified suppliers</li>
+          <li>Access special pricing and bulk discounts</li>
+          <li>Track orders and manage your chemical supply chain</li>
+        </ul>
+      </div>
     </div>
   );
 };

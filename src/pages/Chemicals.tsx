@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import MainLayout from "@/components/layout/MainLayout";
@@ -62,7 +61,6 @@ const mockChemicals = [
     purity: "99%",
     price: "$450-$750",
     moq: "1000 kg",
-    seller: "Chemical Solutions Ltd",
     verified: true,
     image: "https://images.unsplash.com/photo-1603126857599-f6e157fa2fe6?ixlib=rb-1.2.1&auto=format&fit=crop&q=80&w=500",
   },
@@ -74,7 +72,6 @@ const mockChemicals = [
     purity: "98%",
     price: "$300-$550",
     moq: "500 kg",
-    seller: "Industrial Chemicals Inc",
     verified: true,
     image: "https://images.unsplash.com/photo-1581093583449-2f95d5cf2d66?ixlib=rb-1.2.1&auto=format&fit=crop&q=80&w=500",
   },
@@ -86,7 +83,6 @@ const mockChemicals = [
     purity: "99.5%",
     price: "$650-$950",
     moq: "2000 L",
-    seller: "Global Chemical Traders",
     verified: false,
     image: "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?ixlib=rb-1.2.1&auto=format&fit=crop&q=80&w=500",
   },
@@ -98,7 +94,6 @@ const mockChemicals = [
     purity: "99.8%",
     price: "$780-$1100",
     moq: "1000 L",
-    seller: "Solvents Plus Co.",
     verified: true,
     image: "https://images.unsplash.com/photo-1616711092004-ef51e399f2a0?ixlib=rb-1.2.1&auto=format&fit=crop&q=80&w=500",
   },
@@ -110,7 +105,6 @@ const mockChemicals = [
     purity: "37%",
     price: "$250-$400",
     moq: "500 L",
-    seller: "AcidChem Industries",
     verified: true,
     image: "https://images.unsplash.com/photo-1615900119312-2acd3a71f3aa?ixlib=rb-1.2.1&auto=format&fit=crop&q=80&w=500",
   },
@@ -122,7 +116,6 @@ const mockChemicals = [
     purity: "99.9%",
     price: "$520-$780",
     moq: "1500 L",
-    seller: "Methanol Suppliers Ltd",
     verified: false,
     image: "https://images.unsplash.com/photo-1631744591853-998c4308bbb0?ixlib=rb-1.2.1&auto=format&fit=crop&q=80&w=500",
   },
@@ -134,7 +127,6 @@ const mockChemicals = [
     purity: "99.5%",
     price: "$580-$850",
     moq: "1000 L",
-    seller: "Industrial Solvents Inc",
     verified: true,
     image: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-1.2.1&auto=format&fit=crop&q=80&w=500",
   },
@@ -146,7 +138,6 @@ const mockChemicals = [
     purity: "99%",
     price: "$380-$650",
     moq: "800 L",
-    seller: "ChemCo Supplies",
     verified: true,
     image: "https://images.unsplash.com/photo-1616408728625-MCfJrJBIJqo?ixlib=rb-1.2.1&auto=format&fit=crop&q=80&w=500",
   }
@@ -163,6 +154,7 @@ const Chemicals = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [quickViewId, setQuickViewId] = useState<number | null>(null);
   const isMobile = useIsMobile();
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // In a real app, this would be from auth context
   
   const itemsPerPage = 8;
   
@@ -171,8 +163,7 @@ const Chemicals = () => {
     // Search query filter
     const matchesSearch = 
       chemical.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      chemical.cas.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      chemical.seller.toLowerCase().includes(searchQuery.toLowerCase());
+      chemical.cas.toLowerCase().includes(searchQuery.toLowerCase());
     
     // Category filter
     const matchesCategory = selectedCategories.length === 0 || 
@@ -234,6 +225,15 @@ const Chemicals = () => {
     toast.success("Chemical added to comparison list");
   };
 
+  const handleLoginPrompt = () => {
+    toast.info("Please login or register to view supplier details", {
+      action: {
+        label: "Login",
+        onClick: () => window.location.href = "/login"
+      }
+    });
+  };
+
   return (
     <MainLayout>
       <div className="page-container">
@@ -250,7 +250,7 @@ const Chemicals = () => {
           <div className="relative flex-1">
             <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
             <Input 
-              placeholder="Search by chemical name, CAS number, or supplier..." 
+              placeholder="Search by chemical name, CAS number..." 
               className="pl-9"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -331,7 +331,7 @@ const Chemicals = () => {
                       checked={verifiedOnly}
                       onCheckedChange={(checked) => setVerifiedOnly(checked === true)}
                     />
-                    <Label htmlFor="verified">Show verified suppliers only</Label>
+                    <Label htmlFor="verified">Show verified products only</Label>
                   </div>
                 </div>
                 
@@ -448,11 +448,10 @@ const Chemicals = () => {
                     <p className="text-xs mt-1">MOQ: {chemical.moq}</p>
                   </div>
                   <div className="mt-3 text-xs flex items-center">
-                    <span className="text-gray-500">Seller: {chemical.seller}</span>
                     {chemical.verified && (
-                      <span className="ml-2 flex items-center text-keshav-600">
+                      <span className="flex items-center text-keshav-600">
                         <CheckIcon size={12} className="mr-0.5" />
-                        Verified
+                        Verified Product
                       </span>
                     )}
                   </div>
@@ -461,14 +460,25 @@ const Chemicals = () => {
                   <Button variant="outline" asChild className="w-full">
                     <Link to={`/chemicals/${chemical.id}`}>View Details</Link>
                   </Button>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    className="w-full text-keshav-700"
-                    onClick={() => handleCompare(chemical.id)}
-                  >
-                    Add to Compare
-                  </Button>
+                  {isLoggedIn ? (
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="w-full text-keshav-700"
+                      onClick={() => handleCompare(chemical.id)}
+                    >
+                      Add to Compare
+                    </Button>
+                  ) : (
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="w-full text-keshav-700"
+                      onClick={handleLoginPrompt}
+                    >
+                      Contact Supplier
+                    </Button>
+                  )}
                 </CardFooter>
               </Card>
             ))
@@ -554,6 +564,20 @@ const Chemicals = () => {
             </PaginationContent>
           </Pagination>
         )}
+        
+        {/* Login prompt for visitors */}
+        <div className="mt-12 bg-gray-50 border border-gray-200 rounded-lg p-6 text-center">
+          <h3 className="text-xl font-medium text-gray-900 mb-2">Looking for more details?</h3>
+          <p className="text-gray-600 mb-4">Create an account to view supplier information, request quotes, and place orders.</p>
+          <div className="flex justify-center gap-4">
+            <Button asChild>
+              <Link to="/register">Create Account</Link>
+            </Button>
+            <Button variant="outline" asChild>
+              <Link to="/login">Sign In</Link>
+            </Button>
+          </div>
+        </div>
       </div>
     </MainLayout>
   );

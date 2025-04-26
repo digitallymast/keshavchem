@@ -12,11 +12,21 @@ const Login = () => {
           </span>
         </Link>
         <h2 className="mt-4 text-center text-gray-600">
-          The B2B Marketplace for the Chemical Industry
+          Login to access the Chemical Industry Marketplace
         </h2>
       </div>
       
       <LoginForm />
+      
+      <div className="mt-6 text-center text-sm text-gray-500">
+        <p>As a logged-in user, you'll be able to:</p>
+        <ul className="mt-2 space-y-1">
+          <li>View supplier details and contact information</li>
+          <li>Request quotes and place orders</li>
+          <li>Access personalized pricing and terms</li>
+          <li>Manage your chemical procurement in one place</li>
+        </ul>
+      </div>
     </div>
   );
 };
